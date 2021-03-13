@@ -1,0 +1,108 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200525105114_20200525new.cs" />
+    <Compile Remove="Migrations\20200525105114_20200525new.Designer.cs" />
+    <Compile Remove="Migrations\20200705072055_GovOrgUnit.cs" />
+    <Compile Remove="Migrations\20200705072055_GovOrgUnit.Designer.cs" />
+    <Compile Remove="Migrations\20200705072208_GovOrgUnit.cs" />
+    <Compile Remove="Migrations\20200705072208_GovOrgUnit.Designer.cs" />
+    <Compile Remove="Migrations\20200705072815_GovOrgUnit.cs" />
+    <Compile Remove="Migrations\20200705072815_GovOrgUnit.Designer.cs" />
+    <Compile Remove="Migrations\20200705115025_GovOrgUnit.cs" />
+    <Compile Remove="Migrations\20200705115025_GovOrgUnit.Designer.cs" />
+    <Compile Remove="Migrations\20200705115152_GovOrgUnit.cs" />
+    <Compile Remove="Migrations\20200705115152_GovOrgUnit.Designer.cs" />
+    <Compile Remove="Migrations\20200804000522_RoleApplication.cs" />
+    <Compile Remove="Migrations\20200804000522_RoleApplication.Designer.cs" />
+    <Compile Remove="Migrations\20200804034540_DropSS.cs" />
+    <Compile Remove="Migrations\20200804034540_DropSS.Designer.cs" />
+    <Compile Remove="Migrations\20200804080055_SSApplicationFlow.cs" />
+    <Compile Remove="Migrations\20200804080055_SSApplicationFlow.Designer.cs" />
+    <Compile Remove="Migrations\20200804231302_CreateSSApi.cs" />
+    <Compile Remove="Migrations\20200804231302_CreateSSApi.Designer.cs" />
+    <Compile Remove="Migrations\20200804231800_CreateSSApi.cs" />
+    <Compile Remove="Migrations\20200804231800_CreateSSApi.Designer.cs" />
+    <Compile Remove="Migrations\20200807033210_20200807_RoleApplicationAddColumns.cs" />
+    <Compile Remove="Migrations\20200807033210_20200807_RoleApplicationAddColumns.Designer.cs" />
+    <Compile Remove="Migrations\20200809124251_ChangeSecurityServer.cs" />
+    <Compile Remove="Migrations\20200809124251_ChangeSecurityServer.Designer.cs" />
+    <Compile Remove="Migrations\20200809124619_ChangeSecurityServer.cs" />
+    <Compile Remove="Migrations\20200809124619_ChangeSecurityServer.Designer.cs" />
+    <Compile Remove="Migrations\20200810080131_ChangeSSCert.cs" />
+    <Compile Remove="Migrations\20200810080131_ChangeSSCert.Designer.cs" />
+    <Compile Remove="Migrations\20200810080635_DropSSCert.cs" />
+    <Compile Remove="Migrations\20200810080635_DropSSCert.Designer.cs" />
+    <Compile Remove="Migrations\20200810101659_CreateEMEvent.cs" />
+    <Compile Remove="Migrations\20200810101659_CreateEMEvent.Designer.cs" />
+    <Compile Remove="Migrations\20200811050529_CreateOMEvent.cs" />
+    <Compile Remove="Migrations\20200811050529_CreateOMEvent.Designer.cs" />
+    <Compile Remove="Migrations\20200825025246_TimeStampService.cs" />
+    <Compile Remove="Migrations\20200825025246_TimeStampService.Designer.cs" />
+    <Compile Remove="Migrations\20200825025502_TimeStampService.cs" />
+    <Compile Remove="Migrations\20200825025502_TimeStampService.Designer.cs" />
+    <Compile Remove="Migrations\20200825030113_TimeStampService.cs" />
+    <Compile Remove="Migrations\20200825030113_TimeStampService.Designer.cs" />
+    <Compile Remove="Migrations\20200825035252_TimeStampService.cs" />
+    <Compile Remove="Migrations\20200825035252_TimeStampService.Designer.cs" />
+    <Compile Remove="Migrations\20200825080233_TimeStampService.cs" />
+    <Compile Remove="Migrations\20200825080233_TimeStampService.Designer.cs" />
+    <Compile Remove="Migrations\20200831053628_VersionServiceAndSSVersion.cs" />
+    <Compile Remove="Migrations\20200831053628_VersionServiceAndSSVersion.Designer.cs" />
+    <Compile Remove="Migrations\20200912211347_AddNameForQP.cs" />
+    <Compile Remove="Migrations\20200912211347_AddNameForQP.Designer.cs" />
+    <Compile Remove="Migrations\20200912211707_AddNameToChangeLog.cs" />
+    <Compile Remove="Migrations\20200912211707_AddNameToChangeLog.Designer.cs" />
+    <Compile Remove="Migrations\20200912212843_AddSSApplicationIndex.cs" />
+    <Compile Remove="Migrations\20200912212843_AddSSApplicationIndex.Designer.cs" />
+    <Compile Remove="Migrations\20200913042712_SS2QPName.cs" />
+    <Compile Remove="Migrations\20200913042712_SS2QPName.Designer.cs" />
+    <Compile Remove="Migrations\20200921081424_AddSSMonitorAndSSApiMonitor.cs" />
+    <Compile Remove="Migrations\20200921081424_AddSSMonitorAndSSApiMonitor.Designer.cs" />
+    <Compile Remove="Migrations\20201214040926_AddExceptionLog.cs" />
+    <Compile Remove="Migrations\20201214040926_AddExceptionLog.Designer.cs" />
+    <Compile Remove="Migrations\20210118040338_ChangeSSAgreementForeignKey.cs" />
+    <Compile Remove="Migrations\20210118040338_ChangeSSAgreementForeignKey.Designer.cs" />
+    <Compile Remove="Migrations\20210121025817_ChangeSSAgreementPrimaryKey.cs" />
+    <Compile Remove="Migrations\20210121025817_ChangeSSAgreementPrimaryKey.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
+</Project>
