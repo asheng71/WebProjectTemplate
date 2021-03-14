@@ -17,9 +17,17 @@ namespace Application.Common.Interfaces
         /// <returns>base64 hash value</returns>
         public string Sign(string data);
 
+        /// <summary>
+        /// Check if the given certificate is used for server authentication
+        /// </summary>
+        /// <param name="cert"></param>
+        /// <returns></returns>
+        public bool IsSSLServerCertificate(X509Certificate2 cert);
 
         public X509Certificate2 GetRootCACertificate(X509Certificate2 cert);
 
-        public string GetCertName(X509Certificate2 cert);
+
+
+       
     }
 }

@@ -35,6 +35,36 @@ namespace Infrastructure.Utilities
             return Verify(data, base64Signature, GetSigningKeystore());
         }
 
+        /// <summary>
+        /// Check if the given certificate is used for server authentication
+        /// </summary>
+        /// <param name="cert"></param>
+        /// <returns></returns>
+        public bool IsSSLServerCertificate(X509Certificate2 cert)
+        {
+            bool result = false;
+
+            X509ExtensionCollection extensions = cert.Extensions;
+            foreach (X509Extension ext in extensions)
+            {
+                if (ext is X509EnhancedKeyUsageExtension)
+                {
+                    var enhanced = ext as X509EnhancedKeyUsageExtension;
+                    foreach (Oid oid in enhanced.EnhancedKeyUsages)
+                    {
+                        result = (oid.Value == "1.3.6.1.5.5.7.3.1");  // http://oidref.com/1.3.6.1.5.5.7.3.1
+                        if (result)
+                        {
+                            return result;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
         public X509Certificate2 GetRootCACertificate(X509Certificate2 cert)
         {
             if (cert == null)
@@ -50,44 +80,6 @@ namespace Infrastructure.Utilities
 
             X509ChainElement chainElement = chain.ChainElements[chain.ChainElements.Count - 1];
             return chainElement.Certificate;
-        }
-
-        //public string GetIssuerName(X509Certificate2 cert)
-        //{
-        //    return cert.Issuer;
-        //}
-
-        public string GetCertName(X509Certificate2 cert)
-        {
-            // cert.FriendlyName 中文會亂碼
-
-            if(cert == null)
-            {
-                return string.Empty;
-            }
-
-            string distinguisedName = cert.SubjectName.Name;
-            string[] names = distinguisedName.Split(",");
-            string result = string.Empty;
-            try
-            {
-                for (int i = 0; i < names.Length; i++)
-                {
-                    string[] name = names[i].Split("=");
-                    string key = name[0];
-                    string value = name[1];
-                    if (key == "SERIALNUMBER")
-                    {
-                        continue;
-                    }
-                    result = value;
-                    break;
-                }
-            }
-            catch { }
-            
-
-            return result;
         }
 
         private string Sign(string data, X509Certificate2 pkcs12)
@@ -156,85 +148,6 @@ namespace Infrastructure.Utilities
             return cms.Certificates;
         }
 
-        /* needs further investigation */
-
-        //public string Sign(string data)
-        //{
-
-        //    string privateKey = File.ReadAllText(_keyPath)              //base64
-        //        .Replace("\n", "")
-        //        .Replace("\r", "")
-        //        .Replace("-----BEGIN RSA PRIVATE KEY-----", "")
-        //        .Replace("-----END RSA PRIVATE KEY-----", "");
-
-        //    RSACryptoServiceProvider rsa = null;
-        //    SHA256CryptoServiceProvider sha = null;
-        //    try
-        //    {
-        //        rsa = new RSACryptoServiceProvider();
-        //        sha = new SHA256CryptoServiceProvider();
-        //        rsa.ImportRSAPrivateKey(Convert.FromBase64String(privateKey), out _);
-
-        //        byte[] signature = rsa.SignData(Encoding.UTF8.GetBytes(data), sha);
-
-        //        byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(data));  // compute sha256 hash of the data
-        //        byte[] signature2 = rsa.SignHash(hash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-
-        //        return Convert.ToBase64String(signature2);
-        //    }
-        //    finally
-        //    {
-        //        if (rsa != null)
-        //        {
-        //            rsa.Clear();
-        //        }
-        //        if (sha != null)
-        //        {
-        //            sha.Clear();
-        //        }
-        //    }
-
-        //    return string.Empty;
-        //}
-
-        //public bool Verify(string data, string signature, X509Certificate2 certificate)
-        //{
-
-        //    RSACryptoServiceProvider rsa = null;
-        //    SHA256CryptoServiceProvider sha = null;
-
-        //    //RSACryptoServiceProvider publicKeyProvider = (RSACryptoServiceProvider)cert.PublicKey.Key;
-
-        //    bool verifyData;
-        //    try
-        //    {
-        //        rsa = new RSACryptoServiceProvider();
-        //        sha = new SHA256CryptoServiceProvider();
-        //        //rsa.ImportRSAPublicKey(certificate.GetPublicKey(), out _);
-        //        //RSACryptoServiceProvider publicKeyProvider = (RSACryptoServiceProvider)certificate.PublicKey.Key;
-
-
-        //        byte[] hash = sha.ComputeHash(Encoding.UTF8.GetBytes(data));  // compute sha256 hash of the data
-        //        bool testHash = rsa.VerifyHash(hash, Convert.FromBase64String(signature), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-
-
-        //        verifyData = rsa.VerifyData(Encoding.UTF8.GetBytes(data), sha, Convert.FromBase64String(signature));
-
-
-        //    }
-        //    finally
-        //    {
-        //        if (rsa != null)
-        //        {
-        //            rsa.Clear();
-        //        }
-        //        if (sha != null)
-        //        {
-        //            sha.Clear();
-        //        }
-        //    }
-        //    return verifyData;
-        //}
 
 
     }

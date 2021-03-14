@@ -4,62 +4,59 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using Xunit;
 
 namespace Infrastructure.Tests.Utilities
 {
     public class PkcsUtilTest
     {
-        public class PkcsConfigurations : IConfiguration
+        IConfigurationRoot _config;
+
+        public PkcsUtilTest()
         {
-            private Dictionary<string, string> Items { get; set; }
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .AddEnvironmentVariables();
 
-            public PkcsConfigurations()
-            {
-                Items = new Dictionary<string, string>()
-                {
-                    { "SigingKeyStore", "./TestAssests/ca-self.p12" },
-                    { "SigingKeyStorePW", "hello" }
-                };
-            }
-
-            public string this[string key] { get => Items[key]; set => Items[key] = value; }
-
-            public IEnumerable<IConfigurationSection> GetChildren()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IChangeToken GetReloadToken()
-            {
-                throw new NotImplementedException();
-            }
-
-            public IConfigurationSection GetSection(string key)
-            {
-                throw new NotImplementedException();
-            }
+            _config = builder.Build();
         }
 
 
         [Fact]
         public void Pkcs_SignedData_IsSelfVerifiable()
         {
-            string dir = AppContext.BaseDirectory;
+            // Arrange
+            var pkcs = new PkcsUtil(_config);
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .AddEnvironmentVariables();
-
-            IConfigurationRoot config = builder.Build();
-            
-            var pkcs = new PkcsUtil(config);
-
+            // Act
             string base64Hash = pkcs.Sign("hello");
             bool isVerified = pkcs.Verify("hello", base64Hash);
 
+            // Assert
             Assert.True(isVerified);
+        }
+
+        [Fact]
+        public void Pkcs_SSLCertificate_Disguishable()
+        {
+            // Arrange
+            var config = _config as IConfiguration;
+            string accurateCertPath = config.GetValue<string>("AccurateSslCertificate");
+            string inaccurateCertPath = config.GetValue<string>("InaccurateSslCertificate");
+
+            var sslCert = new X509Certificate2(accurateCertPath);
+            var nonSslCert = new X509Certificate2(inaccurateCertPath);
+            var pkcs = new PkcsUtil(_config);
+
+            // Act
+            bool shouldBeTrue = pkcs.IsSSLServerCertificate(sslCert);
+            bool shouldBeFalse = pkcs.IsSSLServerCertificate(nonSslCert);
+
+            // Assert
+            Assert.True(shouldBeTrue);
+            Assert.False(shouldBeFalse);
         }
     }
 }
